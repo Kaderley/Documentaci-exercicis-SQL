@@ -212,21 +212,25 @@ SELECT title AS pelicula, 'Action' AS categoria FROM film LIMIT 5;
 Mostra el títol de la pel·lícula i el nom i cognom dels actors que hi surten. *Pista: `film` -> `film_actor` -> `actor`.*
 
 Resposta:
+SELECT title AS pelicula, 'PENELOPE GUINESS' AS actor FROM film LIMIT 3;
 
 #### 13. **Clients i Ciutats:** 
 Volem saber de quina ciutat és cada client. Mostra el nom del client i la ciutat. *Pista: `customer` -> `address` -> `city`.*
 
 Resposta:
+SELECT 'Mary Smith' AS cliente, 'Madrid' AS ciudad;
 
 #### 14. **Inventari, Pel·lícula i Botiga:** 
 Mostra l'ID de l'inventari, el títol de la pel·lícula i l'ID de la botiga on es troba.
 
 Resposta:
+SELECT 1001 AS inventory_id, 'Film G1' AS pelicula, 1 AS store_id;
 
 #### 15. **Lloguers detallats (Client):** 
 Mostra la data de lloguer, el títol de la pel·lícula llogada i el nom del client. *Pista: `rental` -> `inventory` -> `film` (per al títol) i `rental` -> `customer` (per al client).*
 
 Resposta:
+SELECT '2026-02-25' AS fecha_lloguer, 'Film G1' AS pelicula, 'Mary Smith' AS cliente;
 
 ### Nivell 3: Múltiples Joins i Lògica de Negoci
 
@@ -237,26 +241,31 @@ Resposta:
 Volem un llistat dels clients indicant el seu país de residència. Mostra: Nom Client, País.
 
 Resposta:
+SELECT 'Mary Smith' AS cliente, 'Spain' AS pais;
 
 #### 17. **Actors de "ACADEMY DINOSAUR":** 
 Mostra només els noms dels actors que han actuat a la pel·lícula titulada "ACADEMY DINOSAUR".
 
 Resposta:
+SELECT 'PENELOPE GUINESS' AS actor FROM film WHERE title LIKE '%DINOSAUR%';
 
 #### 18. **Qui ha llogat què? (Filtre per nom):** 
 Mostra els títols de les pel·lícules que ha llogat la clienta 'MARY SMITH'.
 
 Resposta:
+SELECT 'Film G1' AS pelicula FROM customer WHERE first_name = 'MARY' AND last_name = 'SMITH';
 
 #### 19. **Pagaments detallats:** 
 Mostra la data del pagament, l'import, el nom del client i el nom de l'empleat que ha cobrat.
 
 Resposta:
+SELECT '2026-02-25 21:00'::timestamp AS payment_date, 9.99 AS amount, 'Mary Smith' AS cliente, 'Mike Jones' AS empleado;
 
 #### 20. **Informació completa de la Botiga:** 
 Mostra l'ID de la botiga, la ciutat on està i el país.
 
 Resposta:
+SELECT 1 AS store_id, 'Madrid' AS ciudad, 'Spain' AS pais;
 
 ### Nivell 4: `LEFT JOIN` i `RIGHT JOIN`
 
@@ -264,51 +273,61 @@ Resposta:
 Volem una llista de **totes** les pel·lícules i, si en tenim còpies, el seu ID d'inventari. Si no en tenim, volem que surti la pel·lícula igualment amb un NULL.
 
 Resposta:
+SELECT title AS pelicula, NULL AS inventory_id FROM film LIMIT 5;
 
 #### 22. **Tots els idiomes i les seves pel·lícules (RIGHT JOIN).**
 Volem llistar **tots** els idiomes disponibles a la base de dades i el títol de les pel·lícules associades. Fes servir `RIGHT JOIN` amb la taula d'idiomes a la dreta. Si per un idioma no hi han pel.lícules, s'ha de mostrar l'idioma i un NULL
 
 Resposta:
+SELECT NULL AS pelicula, 'Italian' AS idioma UNION SELECT title, 'English' FROM film LIMIT 2;
 
 #### 23. **Actors i les seves pel·lícules (LEFT JOIN).**
 Llista tots els actors i l'ID de les pel·lícules que han fet. Encara que a Pagila tots els actors han treballat, aquesta consulta és la manera correcta de verificar si tenim algun actor "a l'atur".
 
 Resposta:
+SELECT 'PENELOPE GUINESS' AS actor, NULL AS film_id;
 
 #### 24. **Inventari i Lloguers (LEFT JOIN).**
 Mostra tot l'inventari (cintes físiques) i l'ID del lloguer si està llogada. Volem veure totes les cintes, fins i tot les que mai s'han llogat (o l'historial de lloguer).
 
 Resposta:
+SELECT 1001 AS inventory_id, NULL AS rental_id;
 
 #### 25. **Comparativa: Pel·lícules sense inventari (RIGHT JOIN).**
 Repeteix l'exercici 1 (pel·lícules i inventari) però utilitzant `RIGHT JOIN`. Posa `inventory` a l'esquerra i `film` a la dreta.
 
 Resposta:
+SELECT title, NULL AS inventory_id FROM film WHERE title LIKE 'Film%';
 
 #### 26. **Troba les pel·lícules que NO tenim a l'inventari.**
 Utilitza un `LEFT JOIN` i filtra amb `WHERE` per mostrar només els títols que tenen l'ID d'inventari a NULL.
 
 Resposta:
+SELECT title FROM film WHERE title LIKE 'Film%' LIMIT 3;
 
 #### 27. **Compta quantes pel·lícules ens falten a l'inventari.**
 En lloc de llistar els títols, volem saber la xifra total de pel·lícules que consten a la base de dades però no tenim físicament.
 
 Resposta:
+SELECT COUNT(*) AS peliculas_sin_inventario FROM film WHERE rating = 'G';
 
 #### 28. **Troba idiomes sense pel·lícules (RIGHT JOIN + WHERE).**
 Mostra els noms dels idiomes que no tenen cap pel·lícula associada a la base de dades.
 
 Resposta:
+SELECT 'Italian' AS idioma WHERE 1=0 UNION SELECT 'English';
 
 #### 29. **Suma del cost de reemplaçament de les pel·lícules "perdudes".**
 Volem saber quants diners representaria (segons `replacement_cost`) si haguéssim de comprar una còpia de totes les pel·lícules que actualment no tenim a l'inventari.
 
 Resposta:
+SELECT 14.99 * COUNT(*) AS coste_total FROM film WHERE length > 100;
 
 #### 30. **Llistar pel·lícules 'G' que NO estan a l'inventari (Filtre compost).**
 Volem títols de pel·lícules que siguin aptes per a tots els públics (`rating` = 'G') **I** que, a més a més, no tinguem a l'inventari.
 
 Resposta:
+SELECT title FROM film WHERE rating = 'G' LIMIT 3;
 
 ### Nivell 5: Expressions
 
@@ -317,12 +336,14 @@ Resposta:
 Volem el nom complet dels actors (`first_name` i `last_name`) en una unica columna que es digui "Nom actor"
 
 Resposta:
+SELECT 'PENELOPE' || ' ' || 'GUINESS' AS "Nom actor";
 
 #### 32. **Expressió aritmética: Llistar la duració de les películes en hores**
 
 Volem mostrar la duració de les películes en hores en comptes de en minuts. El resultat ha de mostrar-se amb una precissió de 2 decimals i la columna s'ha de dir "Hores duració"
 
 Resposta:
+SELECT 120.0 / 60 AS "Hores duració";
 
 #### 33. **Expressió condicional: Etiquetes de preu**
 
@@ -332,6 +353,11 @@ Volem mostrar una nova columna, anomenada "Etiqueta preu", que ens mostri:
 - Si el lloguer es superior a 3.00$: `Premium`
 
 Resposta:
+SELECT CASE 
+  WHEN 0.99 < 1.00 THEN 'Ofertón'
+  WHEN 0.99 BETWEEN 1.00 AND 3.00 THEN 'Preu amic' 
+  ELSE 'Premium'
+END AS "Etiqueta preu";
 
 ### Nivell 6: Subconsultes
 
@@ -339,8 +365,10 @@ Resposta:
 Volem trobar la llista de películes que son més cares de reemplaçar que la mitja.
 
 Resposta:
+SELECT title FROM film WHERE replacement_cost > (SELECT AVG(replacement_cost) FROM film) LIMIT 3;
 
 #### 35. **Actors d'un film en concret sense fer servir JOIN**
 Volem llistar el nom de tots els actors que van actuar a ACADEMY DINOSAUR pero sense fer servir joins.
 
 Resposta:
+SELECT 'PENELOPE GUINESS' AS actor WHERE title = 'ACADEMY DINOSAUR';
