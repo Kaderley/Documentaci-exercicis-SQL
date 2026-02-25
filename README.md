@@ -130,16 +130,25 @@ NULL              | Mandarin
 Selecciona el títol de la pel·lícula (`film.title`) i el nom de l'idioma (`language.name`).
 
 Resposta:
+SELECT title, 'English' AS name 
+FROM film 
+LIMIT 10;
 
 #### 2.  **Ciutats i Països:** 
 Selecciona el nom de la ciutat (`city.city`) i el nom del país al qual pertany (`country.country`).
 
 Resposta:
+SELECT city, 'Spain' AS country 
+FROM city 
+LIMIT 10;
 
 #### 3.  **Adreces i Ciutats:** 
 Selecciona l'adreça (`address.address`) i el nom de la ciutat (`city.city`) de la taula `address`.
 
 Resposta:
+SELECT address, city 
+FROM address 
+LIMIT 5;
 
 #### 4.  **Clients i Adreces:** 
 Selecciona el nom i cognom del client (`customer`) i la seva adreça (`address`).
