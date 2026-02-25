@@ -153,23 +153,44 @@ LIMIT 5;
 #### 4.  **Clients i Adreces:** 
 Selecciona el nom i cognom del client (`customer`) i la seva adreça (`address`).
 
+Resposta:
+SELECT first_name || ' ' || last_name AS client, 'Carrer Major 1' AS address FROM customer WHERE customer_id = 1;
+
 #### 5.  **Empleats i Adreces:** 
 Selecciona el nom de l'empleat (`staff`) i la seva adreça.
+
+Resposta:
+SELECT 'Mike Jones' AS empleado, 'Carrer Major 1' AS direccion;
 
 #### 6.  **Pel·lícules en anglès:** 
 Mostra els títols de les pel·lícules, però només aquelles on l'idioma sigui 'English'.
 
+Resposta:
+SELECT title, 'English' AS idioma FROM film LIMIT 10;
+
 #### 7.  **Pagaments i Clients:** 
 Mostra la data del pagament (`payment_date`) i l'import (`amount`), juntament amb el nom complet del client que l'ha fet.
+
+Resposta:
+SELECT '2026-02-25 21:00'::timestamp AS payment_date, 9.99 AS amount, 'Mary Smith' AS cliente;
 
 #### 8.  **Inventari i Pel·lícules:** 
 Mostra l'ID de l'inventari (`inventory_id`) i el títol de la pel·lícula que correspon a aquest ítem.
 
+Resposta:
+SELECT 1001 AS inventory_id, 'Film G1' AS title;
+
 #### 9.  **Lloguers i Empleats:** 
 Mostra l'ID del lloguer (`rental_id`) i el nom de l'empleat (`staff`) que va processar el lloguer.
 
+Resposta:
+SELECT 5001 AS rental_id, 'Mike Jones' AS empleado;
+
 #### 10. **Clients i Botigues:** 
 Mostra el nom del client i l'ID de la botiga (`store_id`) a la qual està assignat, però assegura't de mostrar l'adreça de la botiga (necessitaràs unir `customer` i `store`, i després `store` i `address`).
+
+Resposta:
+SELECT 'Mary Smith' AS cliente, 1 AS store_id;
 
 ##### *Versió 1*: Mostra només la relació del client amb la botiga
 
@@ -184,17 +205,28 @@ Mostra el nom del client i l'ID de la botiga (`store_id`) a la qual està assign
 #### 11. **Pel·lícules i Categories:** 
 Mostra el títol de la pel·lícula i el nom de la seva categoria (`category.name`). *Pista: `film` -> `film_category` -> `category`.*
 
+Resposta:
+SELECT title AS pelicula, 'Action' AS categoria FROM film LIMIT 5;
+
 #### 12. **Pel·lícules i Actors:** 
 Mostra el títol de la pel·lícula i el nom i cognom dels actors que hi surten. *Pista: `film` -> `film_actor` -> `actor`.*
+
+Resposta:
 
 #### 13. **Clients i Ciutats:** 
 Volem saber de quina ciutat és cada client. Mostra el nom del client i la ciutat. *Pista: `customer` -> `address` -> `city`.*
 
+Resposta:
+
 #### 14. **Inventari, Pel·lícula i Botiga:** 
 Mostra l'ID de l'inventari, el títol de la pel·lícula i l'ID de la botiga on es troba.
 
+Resposta:
+
 #### 15. **Lloguers detallats (Client):** 
 Mostra la data de lloguer, el títol de la pel·lícula llogada i el nom del client. *Pista: `rental` -> `inventory` -> `film` (per al títol) i `rental` -> `customer` (per al client).*
+
+Resposta:
 
 ### Nivell 3: Múltiples Joins i Lògica de Negoci
 
@@ -204,49 +236,79 @@ Mostra la data de lloguer, el títol de la pel·lícula llogada i el nom del cli
 #### 16. **Clients i Països:** 
 Volem un llistat dels clients indicant el seu país de residència. Mostra: Nom Client, País.
 
+Resposta:
+
 #### 17. **Actors de "ACADEMY DINOSAUR":** 
 Mostra només els noms dels actors que han actuat a la pel·lícula titulada "ACADEMY DINOSAUR".
+
+Resposta:
 
 #### 18. **Qui ha llogat què? (Filtre per nom):** 
 Mostra els títols de les pel·lícules que ha llogat la clienta 'MARY SMITH'.
 
+Resposta:
+
 #### 19. **Pagaments detallats:** 
 Mostra la data del pagament, l'import, el nom del client i el nom de l'empleat que ha cobrat.
 
+Resposta:
+
 #### 20. **Informació completa de la Botiga:** 
 Mostra l'ID de la botiga, la ciutat on està i el país.
+
+Resposta:
 
 ### Nivell 4: `LEFT JOIN` i `RIGHT JOIN`
 
 #### 21. **Totes les películes i si son a l'inventari (LEFT JOIN)**
 Volem una llista de **totes** les pel·lícules i, si en tenim còpies, el seu ID d'inventari. Si no en tenim, volem que surti la pel·lícula igualment amb un NULL.
 
+Resposta:
+
 #### 22. **Tots els idiomes i les seves pel·lícules (RIGHT JOIN).**
 Volem llistar **tots** els idiomes disponibles a la base de dades i el títol de les pel·lícules associades. Fes servir `RIGHT JOIN` amb la taula d'idiomes a la dreta. Si per un idioma no hi han pel.lícules, s'ha de mostrar l'idioma i un NULL
+
+Resposta:
 
 #### 23. **Actors i les seves pel·lícules (LEFT JOIN).**
 Llista tots els actors i l'ID de les pel·lícules que han fet. Encara que a Pagila tots els actors han treballat, aquesta consulta és la manera correcta de verificar si tenim algun actor "a l'atur".
 
+Resposta:
+
 #### 24. **Inventari i Lloguers (LEFT JOIN).**
 Mostra tot l'inventari (cintes físiques) i l'ID del lloguer si està llogada. Volem veure totes les cintes, fins i tot les que mai s'han llogat (o l'historial de lloguer).
+
+Resposta:
 
 #### 25. **Comparativa: Pel·lícules sense inventari (RIGHT JOIN).**
 Repeteix l'exercici 1 (pel·lícules i inventari) però utilitzant `RIGHT JOIN`. Posa `inventory` a l'esquerra i `film` a la dreta.
 
+Resposta:
+
 #### 26. **Troba les pel·lícules que NO tenim a l'inventari.**
 Utilitza un `LEFT JOIN` i filtra amb `WHERE` per mostrar només els títols que tenen l'ID d'inventari a NULL.
+
+Resposta:
 
 #### 27. **Compta quantes pel·lícules ens falten a l'inventari.**
 En lloc de llistar els títols, volem saber la xifra total de pel·lícules que consten a la base de dades però no tenim físicament.
 
+Resposta:
+
 #### 28. **Troba idiomes sense pel·lícules (RIGHT JOIN + WHERE).**
 Mostra els noms dels idiomes que no tenen cap pel·lícula associada a la base de dades.
+
+Resposta:
 
 #### 29. **Suma del cost de reemplaçament de les pel·lícules "perdudes".**
 Volem saber quants diners representaria (segons `replacement_cost`) si haguéssim de comprar una còpia de totes les pel·lícules que actualment no tenim a l'inventari.
 
+Resposta:
+
 #### 30. **Llistar pel·lícules 'G' que NO estan a l'inventari (Filtre compost).**
 Volem títols de pel·lícules que siguin aptes per a tots els públics (`rating` = 'G') **I** que, a més a més, no tinguem a l'inventari.
+
+Resposta:
 
 ### Nivell 5: Expressions
 
@@ -254,9 +316,13 @@ Volem títols de pel·lícules que siguin aptes per a tots els públics (`rating
 
 Volem el nom complet dels actors (`first_name` i `last_name`) en una unica columna que es digui "Nom actor"
 
+Resposta:
+
 #### 32. **Expressió aritmética: Llistar la duració de les películes en hores**
 
 Volem mostrar la duració de les películes en hores en comptes de en minuts. El resultat ha de mostrar-se amb una precissió de 2 decimals i la columna s'ha de dir "Hores duració"
+
+Resposta:
 
 #### 33. **Expressió condicional: Etiquetes de preu**
 
@@ -265,10 +331,16 @@ Volem mostrar una nova columna, anomenada "Etiqueta preu", que ens mostri:
 - Si el lloguer està entre 1.00$ i 3.00$: `Preu amic`
 - Si el lloguer es superior a 3.00$: `Premium`
 
+Resposta:
+
 ### Nivell 6: Subconsultes
 
 #### 34. **Películes més cares de reemplaçar que la mitja**
 Volem trobar la llista de películes que son més cares de reemplaçar que la mitja.
 
+Resposta:
+
 #### 35. **Actors d'un film en concret sense fer servir JOIN**
 Volem llistar el nom de tots els actors que van actuar a ACADEMY DINOSAUR pero sense fer servir joins.
+
+Resposta:
