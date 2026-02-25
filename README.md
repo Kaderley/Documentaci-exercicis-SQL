@@ -129,11 +129,17 @@ NULL              | Mandarin
 #### 1. **Pel·lícules i Idiomes:** 
 Selecciona el títol de la pel·lícula (`film.title`) i el nom de l'idioma (`language.name`).
 
+Resposta:
+
 #### 2.  **Ciutats i Països:** 
 Selecciona el nom de la ciutat (`city.city`) i el nom del país al qual pertany (`country.country`).
 
+Resposta:
+
 #### 3.  **Adreces i Ciutats:** 
 Selecciona l'adreça (`address.address`) i el nom de la ciutat (`city.city`) de la taula `address`.
+
+Resposta:
 
 #### 4.  **Clients i Adreces:** 
 Selecciona el nom i cognom del client (`customer`) i la seva adreça (`address`).
